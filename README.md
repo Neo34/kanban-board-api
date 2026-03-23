@@ -107,7 +107,7 @@ v1.0.0 - Initial project setup
 
 ## 👨‍💻 Author
 
-Developed by Cesar Gomide
+Developed by Cesar Constanzo 
 
 ---
 
