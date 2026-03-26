@@ -1,5 +1,6 @@
 package com.cesarconstanzo.kanban_board_api.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.*;
 import lombok.*;
 
