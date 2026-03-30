@@ -1,7 +1,6 @@
 package com.cesarconstanzo.kanban_board_api.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Column;
 import lombok.*;
 
 @Entity
@@ -27,5 +26,5 @@ public class Card {
 
     @ManyToOne
     @JoinColumn(name = "column_id")
-    private Column column;
+    private BoardColumn boardColumn;
 }
