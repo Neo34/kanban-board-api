@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Columns {
+public class BoardColumn {
 
     /**
      * Primary key of the column.

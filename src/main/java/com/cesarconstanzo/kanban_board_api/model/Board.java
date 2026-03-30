@@ -1,6 +1,5 @@
 package com.cesarconstanzo.kanban_board_api.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -47,5 +46,5 @@ public class Board {
      */
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<Column> columns;
+    private List<BoardColumn> columns;
 }
