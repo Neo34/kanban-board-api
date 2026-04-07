@@ -1,69 +1,40 @@
 package com.cesarconstanzo.kanban_board_api.controller;
 
+import com.cesarconstanzo.kanban_board_api.dto.CardDTO;
+import com.cesarconstanzo.kanban_board_api.model.BoardColumn;
 import com.cesarconstanzo.kanban_board_api.model.Card;
+import com.cesarconstanzo.kanban_board_api.repository.BoardColumnRepository;
 import com.cesarconstanzo.kanban_board_api.service.CardService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-/**
- * Rest controller for managing Cards.
- */
 @RestController
 @RequestMapping("/cards")
 public class CardController {
-    private final CardService service;
 
-    public CardController(CardService service) {
+    private final CardService service;
+    private final BoardColumnRepository columnRepository;
+
+    public CardController(CardService service, BoardColumnRepository columnRepository) {
         this.service = service;
+        this.columnRepository = columnRepository;
     }
 
-    /**
-     * Create a new Card
-     */
     @PostMapping
-    public Card create(@RequestBody Card card) {
+    public Card create(@RequestBody CardDTO dto) {
+
+        BoardColumn column = columnRepository.findById(dto.getColumnId())
+                .orElseThrow(() -> new RuntimeException("Column not found"));
+
+        Card card = Card.builder()
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .column(column)
+                .blocked(false)
+                .build();
+
         return service.create(card);
     }
-
-    /**
-     * List all cards
-     */
-    @GetMapping
-    public List<Card> findAll() {
-        return service.findAll();
-    }
-
-    /**
-     * Block a Card
-     */
-    @PutMapping("{id}/block")
-    public Card block(@PathVariable Long id) {
-        return service.block(id);
-    }
-
-    /**
-     * Unblock a card
-     */
-    @PutMapping("/{id}/unblock")
-    public Card unblock(@PathVariable Long id) {
-        return service.unblock(id);
-    }
-
-    /**
-     * Move card to another column
-     */
-    @PutMapping("/{id}/move/{columnId}")
-    public Card move(@PathVariable Long id, @PathVariable Long columnId) {
-        return service.move(id, columnId);
-    }
-
-    /**
-     * Delete a Card
-     */
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
-    }
-
 }
