@@ -20,7 +20,7 @@ public class BoardController {
     }
 
     /**
-     * Create a board
+     * Create a new board
      */
     @PostMapping
     public Board create(@RequestBody Board board) {
@@ -45,7 +45,7 @@ public class BoardController {
     }
 
     /**
-     * Delete board
+     * Delete a board
      */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
