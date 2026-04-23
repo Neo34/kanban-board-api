@@ -50,4 +50,8 @@ public class BoardColumn {
      */
     @OneToMany(mappedBy = "column", cascade = CascadeType.ALL)
     private List<Card> cards;
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 }

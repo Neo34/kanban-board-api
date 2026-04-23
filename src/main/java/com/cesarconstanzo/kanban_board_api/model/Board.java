@@ -47,4 +47,8 @@ public class Board {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<BoardColumn> columns;
+
+    public List<BoardColumn> getColumns() {
+        return columns;
+    }
 }
