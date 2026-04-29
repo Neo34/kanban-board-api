@@ -5,6 +5,7 @@ import com.cesarconstanzo.kanban_board_api.model.BoardColumn;
 import com.cesarconstanzo.kanban_board_api.model.Card;
 import com.cesarconstanzo.kanban_board_api.repository.BoardColumnRepository;
 import com.cesarconstanzo.kanban_board_api.service.CardService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class CardController {
     }
 
     @PostMapping
-    public Card create(@RequestBody CardDTO dto) {
+    public Card create(@Valid @RequestBody CardDTO dto) {
 
         BoardColumn column = columnRepository.findById(dto.getColumnId())
                 .orElseThrow(() -> new RuntimeException("Column not found"));
