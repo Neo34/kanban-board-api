@@ -1,18 +1,22 @@
 package com.cesarconstanzo.kanban_board_api.controller;
 
+import com.cesarconstanzo.kanban_board_api.dto.BoardColumnDTO;
 import com.cesarconstanzo.kanban_board_api.model.Board;
 import com.cesarconstanzo.kanban_board_api.model.BoardColumn;
 import com.cesarconstanzo.kanban_board_api.repository.BoardColumnRepository;
 import com.cesarconstanzo.kanban_board_api.repository.BoardRepository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 /**
  * REST controller for managing Board Columns.
  */
 @RestController
 @RequestMapping("/columns")
+
 public class BoardColumnController {
 
     private final BoardColumnRepository columnRepository;
@@ -28,13 +32,15 @@ public class BoardColumnController {
      * Create a column inside a board
      */
     @PostMapping
-    public BoardColumn create(@RequestParam Long boardId,
-                              @RequestBody BoardColumn column) {
+    public BoardColumn create(@Valid @RequestBody BoardColumnDTO dto) {
 
-        Board board = boardRepository.findById(boardId)
+        Board board = boardRepository.findById(dto.getBoardId())
                 .orElseThrow(() -> new RuntimeException("Board not found"));
-
-        column.setBoard(board);
+        BoardColumn column = BoardColumn.builder()
+                .name(dto.getName())
+                .order(dto.getOrder())
+                .board(board)
+                .build();
 
         return columnRepository.save(column);
     }

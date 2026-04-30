@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import lombok.Builder;
 
 /**
  * Represents a column in a Kanban board.
