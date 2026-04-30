@@ -1,7 +1,9 @@
 package com.cesarconstanzo.kanban_board_api.controller;
 
+import com.cesarconstanzo.kanban_board_api.dto.BoardDTO;
 import com.cesarconstanzo.kanban_board_api.model.Board;
 import com.cesarconstanzo.kanban_board_api.repository.BoardRepository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +25,10 @@ public class BoardController {
      * Create a new board
      */
     @PostMapping
-    public Board create(@RequestBody Board board) {
+    public Board create(@Valid @RequestBody BoardDTO dto) {
+
+        Board board = Board.builder().name(dto.getName()).build();
+
         return repository.save(board);
     }
 
