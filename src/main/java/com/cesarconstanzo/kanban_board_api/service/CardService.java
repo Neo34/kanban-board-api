@@ -66,13 +66,25 @@ public class CardService {
 
         Card card = findById(cardId);
 
+        //blocked card cannot move
         if (card.isBlocked()) {
             throw new RuntimeException("Blocked card cannot be moved");
         }
-
+        //target column
         BoardColumn targetColumn = columnRepository.findById(targetColumnId)
                 .orElseThrow(() -> new RuntimeException("Target column not found"));
 
+        //current column
+        BoardColumn currentColumn = card.getColumn();
+
+        //validate movement
+        int currentOrder = currentColumn.getOrder();
+        int targetOrder = targetColumn.getOrder();
+
+        //allow only next column
+        if (targetOrder != currentOrder + 1) {
+            throw new RuntimeException("Card can only move to the next column");
+        }
         card.setColumn(targetColumn);
 
         return repository.save(card);
