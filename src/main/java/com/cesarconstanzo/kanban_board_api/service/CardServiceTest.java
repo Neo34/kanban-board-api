@@ -69,4 +69,49 @@ public class CardServiceTest {
                 exception.getMessage()
         );
     }
+
+    @Test
+    void shouldNotAllowSkippingColumns() {
+
+        // current column
+        BoardColumn current = BoardColumn.builder()
+                .id(1L)
+                .name("To Do")
+                .order(1)
+                .build();
+
+        // target column (skipping In Progress)
+        BoardColumn target = BoardColumn.builder()
+                .id(3L)
+                .name("Done")
+                .order(3)
+                .build();
+
+        // card
+        Card card = Card.builder()
+                .id(1L)
+                .title("Task")
+                .blocked(false)
+                .column(current)
+                .build();
+
+        // mock repository responses
+        when(cardRepository.findById(1L))
+                .thenReturn(Optional.of(card));
+
+        when(columnRepository.findById(3L))
+                .thenReturn(Optional.of(target));
+
+        // validate exception
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> service.move(1L, 3L)
+        );
+
+        // validate message
+        assertEquals(
+                "Card can only move to the next column",
+                exception.getMessage()
+        );
+    }
 }
